@@ -193,7 +193,7 @@ class GraphAttention(nn.Module):
 		graph.edata['x_ij'] = self.w3(e_ij).view(-1, self.num_heads, self.splitted_dim)
 
 		graph.apply_edges(fn.v_add_e('v', 'x_ij', 'm'))
-		graph.apply_edges(fn.u_mul_e('u', 'm', 'attn'))
+		graph.apply_edges(fn.u_dot_e('u', 'm', 'attn'))
 		graph.edata['attn'] = edge_softmax(graph, graph.edata['attn'] / math.sqrt(self.splitted_dim))
 	
 
